@@ -1,5 +1,6 @@
 package com.STD.StdMngmnt.service.impl;
 
+import com.STD.StdMngmnt.dto.StdRequestDto;
 import com.STD.StdMngmnt.dto.StdResponseDto;
 import com.STD.StdMngmnt.entity.Student;
 import com.STD.StdMngmnt.repository.StdRepository;
@@ -38,6 +39,19 @@ public class StdServiceImpl implements StdService {
         return s;
     }
 
+    @Override
+    public StdResponseDto createNewStd(StdRequestDto dto) {
+        Student s= new Student();
+        s.setName(dto.getName());
+        s.setEmail(dto.getEmail());
+        Student std = stdRepository.save(s);
+        return new StdResponseDto(
+                std.getId(),
+                std.getName(),
+                std.getEmail()
+        );
+    }
 }
+
 
 
