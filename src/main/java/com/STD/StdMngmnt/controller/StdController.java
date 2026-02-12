@@ -37,4 +37,14 @@ public class StdController {
     public ResponseEntity<StdResponseDto> createNewStd(@RequestBody StdRequestDto dto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(stdService.createNewStd(dto));
     }
+    @DeleteMapping("/del/{id}")
+    public ResponseEntity<Void> deleteStudentById(@PathVariable Long id) {
+        stdService.deleteStudentById(id);
+        return ResponseEntity.noContent().build();
+
+    }
+    @PutMapping("put/{id}")
+    public ResponseEntity<StdResponseDto> updateStudent(@PathVariable Long id, @RequestBody StdRequestDto dto) {
+        return ResponseEntity.status(HttpStatus.OK).body(stdService.updateStudent(id,dto));
+    }
 }

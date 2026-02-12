@@ -7,6 +7,7 @@ import com.STD.StdMngmnt.repository.StdRepository;
 import com.STD.StdMngmnt.service.StdService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -45,6 +46,28 @@ public class StdServiceImpl implements StdService {
         s.setName(dto.getName());
         s.setEmail(dto.getEmail());
         Student std = stdRepository.save(s);
+        return new StdResponseDto(
+                std.getId(),
+                std.getName(),
+                std.getEmail()
+        );
+    }
+
+    @Override
+    public void  deleteStudentById(Long id) {
+        Student std =  stdRepository.findById(id).orElseThrow(() ->
+                new IllegalArgumentException("std not found " + id));
+        stdRepository.delete(std);
+    }
+
+    @Override
+    public StdResponseDto updateStudent(Long id, StdRequestDto dto) {
+        Student s=stdRepository.findById(id).orElseThrow(() ->
+                new IllegalArgumentException("std not found " + id));
+
+        s.setName(dto.getName());
+        s.setEmail(dto.getEmail());
+        Student  std = stdRepository.save(s);
         return new StdResponseDto(
                 std.getId(),
                 std.getName(),
